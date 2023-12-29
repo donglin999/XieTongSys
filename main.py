@@ -1,14 +1,25 @@
-from fastapi import FastAPI
-from database import engine  # 导入数据库引擎
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from database import get_db
+from modules import Device
+from database import init_db
 
 app = FastAPI()
+init_db()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.post("/device/")
+def create_device(device: dict, db: Session = Depends(get_db)):
+    return Device.create_device(device, db)
 
+@app.get("/device/{device_number}")
+def read_device(device_number: str, db: Session = Depends(get_db)):
+    return Device.get_device(device_number, db)
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.put("/device/{device_number}")
+def update_device(device_number: str, device: dict, db: Session = Depends(get_db)):
+    return Device.update_device(device_number, device, db)
+
+@app.delete("/device/{device_number}")
+def delete_device(device_number: str, db: Session = Depends(get_db)):
+    return Device.delete_device(device_number, db)
