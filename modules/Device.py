@@ -24,6 +24,7 @@ def create_device(device: dict, db: Session):
     db.refresh(db_device)
     return db_device
 
+
 def get_device(device_number: str, db: Session):
     db_device = db.query(models.Device).filter(models.Device.device_number == device_number).first()
     if db_device is None:

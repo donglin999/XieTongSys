@@ -18,12 +18,5 @@ class Device(Base):
     data_source = Column(String(255))
     other_description = Column(JSON)
 
-def create_device(device: dict):
-    db = next(get_db())
-    db_device = Device(**device)
-    db.add(db_device)
-    db.commit()
-    db.refresh(db_device)
-    return db_device
 
 # 同样地，你可以添加其他的数据库操作函数，如get_device, update_device, delete_device等
