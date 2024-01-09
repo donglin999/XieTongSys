@@ -10,7 +10,6 @@ from sqlalchemy.orm import Session
 from models import Devices as models
 from database import SessionLocal
 
-
 def get_db():
     db = SessionLocal()
     try:
@@ -18,21 +17,11 @@ def get_db():
     finally:
         db.close()
 
-# def create_device(device: dict, db: Session):
-#     db_device = models.Device(**device)
-#     db.add(db_device)
-#     db.commit()
-#     db.refresh(db_device)
-#     return db_device
 def create_device(device: dict, db: Session):
     db_device = models.Device(**device)
     db.add(db_device)
     db.commit()
     db.refresh(db_device)
-
-    # Store the device data in Redis
-    r.set(db_device.device_number, db_device)
-
     return db_device
 
 
