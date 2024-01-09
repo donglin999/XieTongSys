@@ -8,22 +8,22 @@ file : Device.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from modules import Device
+from modules import DeviceModules
 
 router = APIRouter()
 
 @router.post("/device/")
 def create_device(device: dict, db: Session = Depends(get_db)):
-    return Device.create_device(device, db)
+    return DeviceModules.create_device(device, db)
 
 @router.get("/device/{device_number}")
 def read_device(device_number: str, db: Session = Depends(get_db)):
-    return Device.get_device(device_number, db)
+    return DeviceModules.get_device(device_number, db)
 
 @router.put("/device/{device_number}")
 def update_device(device_number: str, device: dict, db: Session = Depends(get_db)):
-    return Device.update_device(device_number, device, db)
+    return DeviceModules.update_device(device_number, device, db)
 
 @router.delete("/device/{device_number}")
 def delete_device(device_number: str, db: Session = Depends(get_db)):
-    return Device.delete_device(device_number, db)
+    return DeviceModules.delete_device(device_number, db)
